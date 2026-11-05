@@ -30,13 +30,11 @@ class Task:
         self.frequency = frequency
 
     def get_priority_value(self):
-        if self.priority.lower() == "high":
-            return 3
-        elif self.priority.lower() == "medium":
-            return 2
-        elif self.priority.lower() == "low":
-            return 1
-        return 0   
+        priority_map = {"high": 3, "medium": 2, "low": 1}
+        priority_key = self.priority.lower()
+        if priority_key not in priority_map:
+            raise ValueError(f"Invalid priority: {self.priority}. Must be 'high', 'medium', or 'low'.")
+        return priority_map[priority_key]   
 
 
 
@@ -59,12 +57,23 @@ class Schedule:
 
 
 class Scheduler:
-    def __init__(self, owner, pet, available_tasks):
+    def __init__(self, owner, pets, available_tasks):
         self.owner = owner
-        self.pet = pet
+        self.pets = pets if isinstance(pets, list) else [pets]
         self.available_tasks = available_tasks
 
-    def generate_plan(self):
+    def generate_plan(self, pet=None):
+        """Generate a daily schedule. If pet is None, uses first pet."""
+        if pet is None:
+            if not self.pets:
+                raise ValueError("No pets available. Add a pet to schedule.")
+            pet = self.pets[0]
+
+        # Validate duration values
+        for task in self.available_tasks:
+            if task.duration_minutes <= 0:
+                raise ValueError(f"Task '{task.title}' has invalid duration: {task.duration_minutes}")
+
         sorted_tasks = self.sort_tasks_by_priority(self.available_tasks)
         scheduled_tasks = []
         total_time = 0
@@ -73,11 +82,17 @@ class Scheduler:
             if total_time + task.duration_minutes <= self.owner.time_available_minutes:
                 scheduled_tasks.append(task)
                 total_time += task.duration_minutes
-        
+
+        if not scheduled_tasks:
+            raise ValueError(f"No tasks fit in available time ({self.owner.time_available_minutes} minutes)")
+
         schedule = Schedule(day="today", tasks=scheduled_tasks, total_time_minutes=total_time)
         return schedule
 
     def sort_tasks_by_priority(self, tasks: list):
+        """Sort tasks by priority (high to low)."""
+        if not tasks:
+            return []
         sorted_tasks = sorted(tasks, key=lambda task: task.get_priority_value(), reverse=True)
         return sorted_tasks
 

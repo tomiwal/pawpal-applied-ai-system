@@ -70,5 +70,94 @@ def test_is_due_today():
     assert task_weekly.is_due_today() == False
 
 
+def test_invalid_priority():
+    """Test that invalid priority raises an error"""
+    task = Task("Walk", "urgent", 30, "daily")
+
+    with pytest.raises(ValueError):
+        task.get_priority_value()
+
+
+def test_no_tasks_fit_in_time():
+    """Test when no tasks fit in available time"""
+    tasks = [
+        Task("Walk", "high", 500, "daily"),  # Longer than available time
+    ]
+
+    owner = Owner("James", [], 300)  # Only 300 minutes available
+    pets = [Pet("Mochi", "dog", 3, [])]
+    scheduler = Scheduler(owner, pets, tasks)
+
+    with pytest.raises(ValueError, match="No tasks fit"):
+        scheduler.generate_plan()
+
+
+def test_zero_duration_task():
+    """Test that zero-duration task raises error"""
+    tasks = [
+        Task("Walk", "high", 0, "daily"),
+    ]
+
+    owner = Owner("James", [], 480)
+    pets = [Pet("Mochi", "dog", 3, [])]
+    scheduler = Scheduler(owner, pets, tasks)
+
+    with pytest.raises(ValueError, match="invalid duration"):
+        scheduler.generate_plan()
+
+
+def test_negative_duration_task():
+    """Test that negative-duration task raises error"""
+    tasks = [
+        Task("Walk", "high", -30, "daily"),
+    ]
+
+    owner = Owner("James", [], 480)
+    pets = [Pet("Mochi", "dog", 3, [])]
+    scheduler = Scheduler(owner, pets, tasks)
+
+    with pytest.raises(ValueError, match="invalid duration"):
+        scheduler.generate_plan()
+
+
+def test_multiple_pets():
+    """Test scheduler handles multiple pets"""
+    pets = [
+        Pet("Mochi", "dog", 3, []),
+        Pet("Whiskers", "cat", 5, []),
+    ]
+    tasks = [Task("Play", "high", 30, "daily")]
+
+    owner = Owner("James", [], 480)
+    scheduler = Scheduler(owner, pets, tasks)
+
+    # Generate plan for first pet (default)
+    schedule = scheduler.generate_plan()
+    assert schedule is not None
+
+    # Generate plan for specific pet
+    schedule2 = scheduler.generate_plan(pet=pets[1])
+    assert schedule2 is not None
+
+
+def test_empty_task_list():
+    """Test that empty task list raises error"""
+    owner = Owner("James", [], 480)
+    pets = [Pet("Mochi", "dog", 3, [])]
+    scheduler = Scheduler(owner, pets, [])
+
+    with pytest.raises(ValueError):
+        scheduler.generate_plan()
+
+
+def test_case_insensitive_priority():
+    """Test that priority check is case-insensitive"""
+    task_high = Task("Walk", "HIGH", 30, "daily")
+    task_low = Task("Feed", "Low", 10, "daily")
+
+    assert task_high.get_priority_value() == 3
+    assert task_low.get_priority_value() == 1
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

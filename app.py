@@ -81,15 +81,15 @@ if st.button("Generate schedule"):
         # Create instances from user input
         owner = Owner(name=owner_name, preferences=[], time_available_minutes=480)
         pet = Pet(name=pet_name, species=species, age=0, special_needs=[])
-        
+
         # Create Task objects
-        tasks = [Task(title=t["title"], priority=t["priority"], 
-                     duration_minutes=t["duration_minutes"], frequency="daily") 
+        tasks = [Task(title=t["title"], priority=t["priority"],
+                     duration_minutes=t["duration_minutes"], frequency="daily")
                 for t in st.session_state.tasks]
-        
+
         # Generate schedule
-        scheduler = Scheduler(owner=owner, pet=pet, available_tasks=tasks)
-        schedule = scheduler.generate_plan()
+        scheduler = Scheduler(owner=owner, pets=[pet], available_tasks=tasks)
+        schedule = scheduler.generate_plan(pet=pet)
         
         # Display results
         st.success(f"✅ Plan created for {pet_name}!")
