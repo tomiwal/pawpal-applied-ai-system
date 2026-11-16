@@ -1,0 +1,23 @@
+graph TD
+    A["User Input"] -->|Pet info, time, tasks| B["AI Agent Orchestrator"]
+
+    B -->|Tool Call: Analyze| C["Knowledge Retriever<br/>(RAG)"]
+    C -->|Returns pet care<br/>guidelines| B
+
+    B -->|Tool Call: Plan| D["Schedule Generator<br/>(Original PawPal+)"]
+    D -->|Initial schedule| B
+
+    B -->|Tool Call: Validate| E["Constraint Validator<br/>Checks conflicts,<br/>time limits"]
+    E -->|Issues found?| B
+
+    B -->|Reasoning loop<br/>repeats if needed| F["Final Output"]
+    F --> G["Explanation<br/>of decisions"]
+    F --> H["Optimized Schedule<br/>with reasoning trace"]
+
+    C -.->|Source| I["Pet Care<br/>Knowledge Base<br/>tasks.json"]
+
+    style B fill:#4A90E2,color:#fff
+    style C fill:#50C878,color:#fff
+    style D fill:#FFB347,color:#fff
+    style E fill:#FF6B6B,color:#fff
+    style F fill:#9B59B6,color:#fff

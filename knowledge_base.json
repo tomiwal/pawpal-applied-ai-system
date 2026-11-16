@@ -1,0 +1,69 @@
+{
+  "dog": {
+    "exercise_minutes": 60,
+    "feeding_times": 2,
+    "care_requirements": [
+      "Morning walk (30 min)",
+      "Breakfast",
+      "Afternoon playtime (20-30 min)",
+      "Evening walk (20 min)",
+      "Dinner"
+    ],
+    "special_notes": "Dogs need regular exercise and consistent routine. Energy level varies by breed."
+  },
+  "cat": {
+    "exercise_minutes": 15,
+    "feeding_times": 2,
+    "care_requirements": [
+      "Fresh food",
+      "Fresh water",
+      "Playtime (10-15 min)",
+      "Litter box check"
+    ],
+    "special_notes": "Cats are independent. Respect quiet time but provide daily interaction."
+  },
+  "bird": {
+    "exercise_minutes": 30,
+    "feeding_times": 1,
+    "care_requirements": [
+      "Fresh food",
+      "Fresh water",
+      "Cage cleaning",
+      "Out-of-cage time (20-30 min)"
+    ],
+    "special_notes": "Birds need social interaction and mental stimulation. Daily out-of-cage time is important."
+  },
+  "rabbit": {
+    "exercise_minutes": 45,
+    "feeding_times": 2,
+    "care_requirements": [
+      "Fresh hay",
+      "Vegetables",
+      "Water",
+      "Exercise/playtime (30-45 min)",
+      "Cage spot cleaning"
+    ],
+    "special_notes": "Rabbits are social and need daily exercise. Keep routine consistent."
+  },
+  "hamster": {
+    "exercise_minutes": 20,
+    "feeding_times": 1,
+    "care_requirements": [
+      "Fresh food",
+      "Fresh water",
+      "Wheel time",
+      "Cage cleaning (2-3 times per week)"
+    ],
+    "special_notes": "Hamsters are nocturnal. Provide enrichment and safe spaces to burrow."
+  },
+  "default": {
+    "exercise_minutes": 10,
+    "feeding_times": 1,
+    "care_requirements": [
+      "Feeding",
+      "Fresh water",
+      "Basic care"
+    ],
+    "special_notes": "Basic pet care for any animal."
+  }
+}
