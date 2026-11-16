@@ -456,10 +456,6 @@ pawpal-project/
 
 ---
 
-## 9. Lessons Learned & Reflection
-
-*To be filled in as project progresses.*
-
 ---
 
 ## License
